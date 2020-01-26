@@ -1,7 +1,7 @@
 ---
 title: "Test statistical assignment"
-author: "Alexey Bessudnov"
-date: "22 January 2020"
+author: "Andrew Bosbery"
+date: "25 January 2020"
 output: github_document
 ---
 
@@ -25,8 +25,10 @@ First, we need to read the data into R. For this assignment, I ask you to use da
 ```{r}
 library(tidyverse)
 # This attaches the tidyverse package. If you get an error here you need to install the package first. 
-Data <- read_tsv("")
+Data <- read_tsv("C:/Users/Andrew/Documents/University/Year 2/Term 2/Data Analysis 3/Project/data/UKDA-6614-tab/tab/ukhls_w9/i_youth.tab")
 # You need to add between the quotation marks a full path to the required file on your computer.
+
+
 ```
 
 ## Tabulate variables (10 points)
@@ -37,6 +39,15 @@ Tabulate three variables: children's gender, age (please use derived variables) 
 
 ```{r}
 # add your code here
+#Table for age
+table(Data$i_age_dv)
+
+
+#Table for sex
+table(Data$i_sex_dv)
+
+#Table for social media platform
+table(Data$i_ypsocweb)
 
 ```
 
@@ -46,7 +57,24 @@ We want to create a new binary variable for having an account on social media so
 
 ```{r}
 # add your code here
+
+#Recoding the social media variable
+#1 = Yes, 0 = No,
+Data$Have_Social_Media <- NA
+Data$Have_Social_Media <- ifelse(Data$i_ypsocweb == 1,
+                                 1,
+                                 0)
+
+
+#Recoding sex
+Data$Gender <- NA
+Data$Gender <- as.factor(ifelse(Data$i_sex_dv == 1,
+                                "Male",
+                                "Female"))
+
+
 ```
+
 
 ## Calculate means (10 points)
 
@@ -54,11 +82,20 @@ Produce code that calculates probabilities of having an account on social media 
 
 ```{r}
 # add your code here
+#Probability of someone having social media by age
+tapply(Data$Have_Social_Media, Data$i_age_dv, mean, na.rm =TRUE)
+
+
+#Probability of someone having social media by gender
+tapply(Data$Have_Social_Media, Data$Gender, mean, na.rm = TRUE)
+
+#Probability based on age and gender
+tapply(Data$Have_Social_Media, list(Data$Gender, Data$i_age_dv), mean, na.rm = TRUE)
 ```
 
 ## Write short interpretation (10 points)
 
-Write two or three sentences interpreting your findings above.
+Age and probability of using social media are positively correlated. This means that an older child/teenager is more likely to use social media than a younger child/teenager. Females are roughly 6% more likely to use social media than males over the whole sample and at every age females have a higher probability of using social media than males..
 
 ## Visualise results (20 points)
 
@@ -66,6 +103,15 @@ Create a statistical graph (only one, but it can be faceted) illustrating your r
 
 ```{r}
 # add your code here
+
+barplot(tapply(Data$Have_Social_Media, list(Data$Gender, Data$i_age_dv), mean, na.rm = TRUE),
+        main = "Proportion of Young People with Social Media",
+        xlab = "Age (Years)",
+        ylab = "Proportion of Social Media users",
+        legend = Data$Gender[1:2], 
+        beside = TRUE)
+
+
 ```
 
 ## Conclusion
