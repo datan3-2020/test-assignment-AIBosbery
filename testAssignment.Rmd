@@ -95,7 +95,7 @@ tapply(Data$Have_Social_Media, list(Data$Gender, Data$i_age_dv), mean, na.rm = T
 
 ## Write short interpretation (10 points)
 
-Age and probability of using social media are positively correlated. This means that an older child/teenager is more likely to use social media than a younger child/teenager. Females are roughly 6% more likely to use social media than males over the whole sample and at every age females have a higher probability of using social media than males..
+Age and probability of using social media are positively correlated. This means that an older child/teenager is more likely to use social media than a younger child/teenager. Females are roughly 6% more likely to use social media than males over the whole sample and at every age females have a higher probability of using social media than males.
 
 ## Visualise results (20 points)
 
